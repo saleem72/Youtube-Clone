@@ -54,13 +54,24 @@ class _PipViewState extends State<PipView> with TickerProviderStateMixin {
     print('pip view dependancy');
   }
 
+  @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    super.dispose();
+  }
+
   Future<void> _initVideoPlayer() async {
     if (video?.path != null) {
       print(video!.path);
+      // const newPath =
+      // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4';
       _videoPlayerController = VideoPlayerController.network(video!.path)
         ..addListener(() {
           setState(() {});
         });
+// VideoPlayerController.initialize() exoplayer2.ExoPlaybackException: Source error, null, null)
+      // await _videoPlayerController?.initialize();
+      // await _videoPlayerController?.play();
       _videoPlayerController?.initialize().then((value) {
         _videoPlayerController?.play();
         setState(() {});
@@ -88,12 +99,6 @@ class _PipViewState extends State<PipView> with TickerProviderStateMixin {
           });
         }
       });
-  }
-
-  @override
-  void dispose() {
-    _setPortraitMode();
-    super.dispose();
   }
 
   Future<void> _allowAllOrientations() async {
